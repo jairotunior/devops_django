@@ -1,0 +1,18 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Running Apt Update
+      apt: update-cache=yes
+    - name: Installing Required Packages
+      apt: {{items}} state=present
+      with_items:
+        - fail2ban
+        - git
+        - python-pip
+        - rdiff-backup
+        - libpq-dev
+        - uwsgi
+        - uwsgi-plugin-python
+        - nginx
+

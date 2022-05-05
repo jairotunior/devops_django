@@ -1,0 +1,41 @@
+---
+- hosts: all
+  become: yes
+  become_user: ubuntu
+  gather_facts: no
+
+  tasks:
+    - name: pull branch master
+      git: repo {{ repo_url }}/{{ repo }}.git
+        dest={{ repo_dir }}
+        accept_hostkey=yes
+  
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Install python requeriments
+      pip: requirements={{ repo_dir }}/requirements/production.txt extra_args=--upgrade
+
+- hosts: all
+  become: yes
+  become_user: ubuntu
+  gather_facts: no
+  environment:
+    DJANGO_SETTINGS_MODULE: "{{ django_project }}.settings.production"
+    STATIC_ROOT: "{{ static_dir }}"
+  
+  tasks:
+    - name: Create static_root dir
+      file: path={{ static_dir }} state=directory mode=0755
+    - name: Django Collect Static
+      shell: ./manage.py collectstatic --no-input chdir={{ django_dir }}
+    - name: Django Migrate
+      shell: ./manage.py migrate --no-input chdir={{ django_dir }}
+    - name: Django Loaddata
+      shell: ./manage.py loaddata user chdir={{ django_dir }}
+
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: uwsgi restart
+      service: name=uwsgi state=restarted

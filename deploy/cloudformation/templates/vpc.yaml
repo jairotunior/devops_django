@@ -1,6 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: |
-Creates a three-tier VPC with high-availability toggle.
+Description: Creates a three-tier VPC with high-availability toggle.
 Parameters:
   AwsDns:
     Description: Use AWS DNS

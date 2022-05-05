@@ -26,9 +26,11 @@ pipeline{
         }
         stage('Unit Test'){
             steps{
-                def app = docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
-                app.inside{
-                    sh 'bash run_unit_test.sh'
+                script{
+                    def app = docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
+                    app.inside{
+                        sh 'bash run_unit_test.sh'
+                    }
                 }
             }
         }

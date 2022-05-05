@@ -1,3 +1,3 @@
 #!/bin/sh -e
 
-../env/Scripts/python manage.py test --tag=integration
+python inventory/manage.py test --tag=integration

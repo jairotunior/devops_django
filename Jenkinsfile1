@@ -29,13 +29,21 @@ pipeline{
                 script{
                     def app = docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
                     app.inside{
-                        sh 'ls'
                         sh 'bash run_unit_test.sh'
                     }
                 }
             }
         }
-        stage('Push Image'){
+        stage('Integration Test'){
+            steps{
+                script{
+                    docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}").inside{
+                        sh 'bash run_integration_test.sh'
+                    }
+                }
+            }
+        }
+        stage('Push Image to AWS'){
             steps{
                 script{
                     docker.withRegistry(

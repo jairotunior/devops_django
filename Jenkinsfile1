@@ -3,7 +3,8 @@ pipeline{
     environment{
         AWS_DEFAULT_REGION='us-east-1'
         AWS_CREDENTIALS=credentials('aws-credentials')
-        DOCKER_IMAGE_NAME='livery:latest'
+        DOCKER_IMAGE_NAME='livery'
+        BUILD_ID='1.0.0'
         DOCKER_REPOSITORY_URL='203648104273.dkr.ecr.us-east-1.amazonaws.com'
     }
     stages {
@@ -29,8 +30,9 @@ pipeline{
                     docker.withRegistry(
                         'https://203648104273.dkr.ecr.us-east-1.amazonaws.com', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
                     ){
-                        def app = docker.build("${DOCKER_IMAGE_NAME}")
-                        app.push()
+                        def app = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_ID}")
+                        app.push("${DOCKER_IMAGE_NAME}:latest")
+                        app.push("${DOCKER_IMAGE_NAME}:${BUILD_ID}")
                     }
                 }
             }

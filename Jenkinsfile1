@@ -24,6 +24,14 @@ pipeline{
                 sh 'ls'
             }
         }
+        stage('Unit Test'){
+            steps{
+                def app = docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
+                app.inside{
+                    sh 'bash run_unit_test.sh'
+                }
+            }
+        }
         stage('Push Image'){
             steps{
                 script{
@@ -33,7 +41,7 @@ pipeline{
                         def app = docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
                         app.push("${BUILD_NUMBER}")
                         app.push("latest")
-                        
+
                         //def app = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
                         //app.push("${BUILD_NUMBER}")
                         //app.push("latest")

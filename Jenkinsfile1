@@ -10,5 +10,10 @@ pipeline{
                 sh 'trivy fs --security-checks vuln,secret,config --severity HIGH,CRITICAL,MEDIUM --no-progress --exit-code 1 .'
             }
         }
+        stage('Build'){
+            steps{
+                sh 'docker build -t jairotunior/django-app:latest .'
+            }
+        }
     }
 }

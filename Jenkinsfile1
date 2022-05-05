@@ -4,6 +4,7 @@ pipeline{
         AWS_DEFAULT_REGION='us-east-1'
         AWS_CREDENTIALS=credentials('aws-credentials')
         DOCKER_IMAGE_NAME='jairotunior/django-app:latest'
+        DOCKER_REPOSITORY_URL=
     }
     stages {
         stage('SV Project'){
@@ -18,7 +19,18 @@ pipeline{
         }
         stage('SV Docker Build'){
             steps{
-                sh "trivy --no-progress --exit-code 1 --severity MEDIUM,HIGH,CRITICAL ${DOCKER_IMAGE_NAME}"
+                //sh "trivy --no-progress --exit-code 1 --severity MEDIUM,HIGH,CRITICAL ${DOCKER_IMAGE_NAME}"
+                sh 'ls'
+            }
+        }
+        stage('Push Image'){
+            steps{
+                docker.withRegistry(
+                    '203648104273.dkr.ecr.us-east-1.amazonaws.com/livery', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
+                ){
+                    def myImage = docker.build('livery')
+                    myImage.tag('latest')
+                }
             }
         }
     }

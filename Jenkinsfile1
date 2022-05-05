@@ -25,13 +25,11 @@ pipeline{
         }
         stage('Push Image'){
             steps{
-                script{
-                    docker.withRegistry(
-                        '203648104273.dkr.ecr.us-east-1.amazonaws.com', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
-                    ){
-                        app.push("django-app")
-                        app.push("latest")
-                    }
+                docker.withRegistry(
+                    '203648104273.dkr.ecr.us-east-1.amazonaws.com', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
+                ){
+                    app.push("django-app")
+                    app.push("latest")
                 }
             }
         }

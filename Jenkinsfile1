@@ -15,7 +15,7 @@ pipeline{
         }
         stage('SV Project'){
             steps{
-                sh 'trivy --security-checks vuln,secret,config --exit-code 1 --no-progress .'
+                sh 'trivy --security-checks vuln,secret,config .'
             }
         }
     }

@@ -10,9 +10,7 @@ pipeline{
     }
     stages {
         stage('Git Clone'){
-            steps{
-                sh 'git clone ${REPOSITORY_URL}'
-            }
+            checkout scm
         }
         stage('SV Config Files'){
             steps{

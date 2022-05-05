@@ -4,7 +4,7 @@ pipeline{
         AWS_DEFAULT_REGION='us-east-1'
         AWS_CREDENTIALS=credentials('aws-credentials')
         DOCKER_IMAGE_NAME='jairotunior/django-app:latest'
-        DOCKER_REPOSITORY_URL='203648104273.dkr.ecr.us-east-1.amazonaws.com/livery'
+        DOCKER_REPOSITORY_URL='203648104273.dkr.ecr.us-east-1.amazonaws.com'
     }
     stages {
         stage('SV Project'){
@@ -27,7 +27,7 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry(
-                        '203648104273.dkr.ecr.us-east-1.amazonaws.com/livery', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
+                        '203648104273.dkr.ecr.us-east-1.amazonaws.com', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
                     ){
                         def myImage = docker.build('livery')
                         myImage.tag('latest')

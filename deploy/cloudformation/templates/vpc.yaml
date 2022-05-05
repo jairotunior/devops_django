@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: |
+Creates a three-tier VPC with high-availability toggle.
+Parameters:
+  AwsDns:
+    Description: Use AWS DNS
+    Type: String
+    AllowedValues:
+    - 'true'
+    - 'false'
+    Default: 'true'
+  BaseCidr:
+    Description: Base CIDR of the VPC
+    Type: String
+    Default: '10.0.0.0/16'
+    ConstraintDescription: must be a string.
+  HighAvailability:
+    Description: Build with high-availability features (e.g.
+    per-AZ NAT GW)
+    Type: String
+    AllowedValues:
+    - 'true'
+    - 'false'
+    Default: 'false'
+  Environment:
+    Description: Environment identifier
+    Type: String
+    AllowedValues:
+    - dev
+    - qa
+    - stg
+    - prod
+    Default: dev
+
+Conditions:
+  AwsDns: !Equals [ !Ref AwsDns, 'true' ]
+  HighAvailability: !Equals [ !Ref HighAvailability, 'true' ]
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+    CidrBlock: !Ref BaseCidr
+    EnableDnsSupport: !If [ AwsDns, 'true', 'false' ]
+    EnableDnsHostnames: !If [ AwsDns, 'true', 'false' ]
+    InstanceTenancy: default
+    Tags:
+    - Key: Name
+    Value: !Ref Environment

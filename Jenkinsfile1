@@ -15,7 +15,7 @@ pipeline{
         }
         stage('SV Project'){
             steps{
-                sh 'trivy fs --severity HIGH,CRITICAL,MEDIUM . --exit-code 1 --no-progress'
+                sh 'trivy --severity HIGH --exit-code 1 --no-progress .'
             }
         }
     }

@@ -15,6 +15,7 @@ pipeline{
         }
         stage('SV Project'){
             steps{
+                sh 'trivy fs --security-checks vuln --severity HIGH,CRITICAL,MEDIUM .'
                 sh "trivy fs --security-checks vuln,secret,config ${CONFIG_FOLDER}/"
             }
         }

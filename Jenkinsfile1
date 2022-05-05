@@ -5,7 +5,7 @@ pipeline{
         AWS_CREDENTIALS=credentials('aws-credentials')
         DOCKER_IMAGE_NAME='jairotunior/django-app:latest'
         DOCKER_REPOSITORY_URL='203648104273.dkr.ecr.us-east-1.amazonaws.com'
-        REPOSITORY_NAME = "livery"
+        REPOSITORY_NAME = "jairotunior/django-app"
         IMAGE_TAG='latest'
     }
     stages {
@@ -27,7 +27,7 @@ pipeline{
         }
         stage('Push Image'){
             steps{
-                sh "docker tag ${REPOSITORY_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:${IMAGE_TAG}"
+                sh "docker tag ${REPOSITORY_NAME}:${IMAGE_TAG} ${DOCKER_REPOSITORY_URL}/${REPOSITORY_NAME}:${IMAGE_TAG}"
                 sh "docker push ${DOCKER_REPOSITORY_URL}/${REPOSITORY_NAME}:${IMAGE_TAG}"
             }
         }

@@ -23,14 +23,21 @@ pipeline{
                 sh 'ls'
             }
         }
+        stage('Code Build'){
+            steps{
+                script{
+                    app = docker.build("underwater")
+                }
+            }
+        }
         stage('Push Image'){
             steps{
                 script{
                     docker.withRegistry(
                         '203648104273.dkr.ecr.us-east-1.amazonaws.com', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
                     ){
-                        def myImage = docker.build('livery')
-                        myImage.tag('latest')
+                        app.push("underwater")
+                        app.push("latest")
                     }
                 }
             }

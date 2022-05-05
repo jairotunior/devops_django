@@ -18,7 +18,7 @@ pipeline{
         }
         stage('SV Docker Build'){
             steps{
-                sh "trivy --no-progress --exit-code 1 --severity MEDIUM,HIGH,CRITICAL ${DOCKER_IMAGE_NAME}"
+                sh "trivy image --no-progress --exit-code 1 --severity MEDIUM,HIGH,CRITICAL ${DOCKER_IMAGE_NAME}"
             }
         }
     }

@@ -3,6 +3,7 @@ pipeline{
     environment{
         AWS_DEFAULT_REGION='us-east-1'
         AWS_CREDENTIALS=credentials('aws-credentials')
+        DOCKER_IMAGE_NAME='jairotunior/django-app:latest'
     }
     stages {
         stage('SV Project'){
@@ -12,7 +13,12 @@ pipeline{
         }
         stage('Build'){
             steps{
-                sh 'docker build -t jairotunior/django-app:latest .'
+                sh "docker build -t ${DOCKER_IMAGE_NAME} ."
+            }
+        }
+        stage('SV Docker Build'){
+            steps{
+                sh "trivy --no-progress --exit-code 1 --severity MEDIUM,HIGH,CRITICAL ${DOCKER_IMAGE_NAME}"
             }
         }
     }

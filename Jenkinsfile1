@@ -4,7 +4,7 @@ pipeline{
         AWS_DEFAULT_REGION='us-east-1'
         AWS_CREDENTIALS=credentials('aws-credentials')
         DOCKER_IMAGE_NAME='livery'
-        BUILD_ID='1.0.0'
+        BUILD_NUMBER='1.0.0'
         DOCKER_REPOSITORY_URL='203648104273.dkr.ecr.us-east-1.amazonaws.com'
     }
     stages {
@@ -15,7 +15,7 @@ pipeline{
         }
         stage('Build'){
             steps{
-                sh "docker build -t ${DOCKER_IMAGE_NAME}:${BUILD_ID} ."
+                sh "docker build -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
             }
         }
         stage('SV Docker Build'){
@@ -30,9 +30,9 @@ pipeline{
                     docker.withRegistry(
                         'https://203648104273.dkr.ecr.us-east-1.amazonaws.com', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
                     ){
-                        def app = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_ID}")
-                        app.push("${DOCKER_IMAGE_NAME}:latest")
-                        app.push("${DOCKER_IMAGE_NAME}:${BUILD_ID}")
+                        def app = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
+                        app.push("${BUILD_NUMBER}")
+                        app.push("latest")
                     }
                 }
             }

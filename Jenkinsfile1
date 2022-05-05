@@ -30,9 +30,13 @@ pipeline{
                     docker.withRegistry(
                         'https://203648104273.dkr.ecr.us-east-1.amazonaws.com', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
                     ){
-                        def app = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
+                        def app = docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
                         app.push("${BUILD_NUMBER}")
                         app.push("latest")
+                        
+                        //def app = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
+                        //app.push("${BUILD_NUMBER}")
+                        //app.push("latest")
                     }
                 }
             }

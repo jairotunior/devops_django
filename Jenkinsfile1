@@ -4,9 +4,6 @@ pipeline{
         AWS_DEFAULT_REGION='us-east-1'
         AWS_CREDENTIALS=credentials('aws-credentials')
     }
-    parameters{
-        string(name:'CONFIG_FOLDER', defaultValue:'', description:'')
-    }
     stages {
         stage('SV Project'){
             steps{

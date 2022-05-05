@@ -8,7 +8,7 @@ pipeline{
         string(name:'CONFIG_FOLDER', defaultValue:'', description:'')
     }
     stages {
-        stage('SV Project'){
+        stage('SV Config'){
             steps{
                 sh "trivy fs  --security-checks secret ${CONFIG_FOLDER}/"
             }

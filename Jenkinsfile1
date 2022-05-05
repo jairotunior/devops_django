@@ -25,11 +25,13 @@ pipeline{
         }
         stage('Push Image'){
             steps{
-                docker.withRegistry(
-                    '203648104273.dkr.ecr.us-east-1.amazonaws.com/livery', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
-                ){
-                    def myImage = docker.build('livery')
-                    myImage.tag('latest')
+                script{
+                    docker.withRegistry(
+                        '203648104273.dkr.ecr.us-east-1.amazonaws.com/livery', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
+                    ){
+                        def myImage = docker.build('livery')
+                        myImage.tag('latest')
+                    }
                 }
             }
         }

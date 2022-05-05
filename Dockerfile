@@ -1,4 +1,4 @@
-FROM aquasec/trivy:latest AS trivy-image
+FROM aquasec/trivy:0.27.1 AS trivy-image
 FROM python:3.8
 
 RUN useradd -u 1234 app-user

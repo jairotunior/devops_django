@@ -13,5 +13,10 @@ pipeline{
                 sh "trivy fs  --security-checks secret ./${CONFIG_FOLDER}/"
             }
         }
+        stage('SV Project'){
+            steps{
+                sh 'trivy fs --severity HIGH,CRITICAL,MEDIUM . --exit-code 1 --no-progress'
+            }
+        }
     }
 }

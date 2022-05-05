@@ -31,7 +31,6 @@ pipeline{
                     app.inside{
                         sh 'ls'
                         sh 'bash run_unit_test.sh'
-                        sh 'python inventory/manage.py test'
                     }
                 }
             }

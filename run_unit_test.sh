@@ -1,3 +1,3 @@
 #!/bin/sh -e
 
-./inventory/python manage.py test --tag=unit
+python inventory/manage.py test --tag=unit

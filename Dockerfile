@@ -1,3 +1,4 @@
+FROM aquasec/trivy:latest AS trivy-image
 FROM python:3.8
 
 RUN useradd -u 1234 app-user
@@ -9,8 +10,6 @@ WORKDIR /app
 COPY ./inventory .
 
 RUN pip install -r requirements.txt --no-cache-dir
-
-FROM aquasec/trivy:latest AS trivy-image
 
 COPY --from=trivy-image /usr/local/bin/trivy /usr/local/bin/trivy
 RUN trivy filesystem --exit-code 1 --no-progress --severity HIGH,CRITICAL,MEDIUM /

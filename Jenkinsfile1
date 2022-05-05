@@ -3,9 +3,8 @@ pipeline{
     environment{
         AWS_DEFAULT_REGION='us-east-1'
         AWS_CREDENTIALS=credentials('aws-credentials')
-        DOCKER_IMAGE_NAME='livery'
+        DOCKER_IMAGE_NAME='livery/django-app:latest'
         DOCKER_REPOSITORY_URL='203648104273.dkr.ecr.us-east-1.amazonaws.com'
-        IMAGE_TAG='latest'
     }
     stages {
         stage('SV Project'){
@@ -26,8 +25,14 @@ pipeline{
         }
         stage('Push Image'){
             steps{
-                sh "docker tag ${DOCKER_IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_REPOSITORY_URL}/${DOCKER_IMAGE_NAME}:${IMAGE_TAG}"
-                sh "docker push ${DOCKER_REPOSITORY_URL}/${DOCKER_IMAGE_NAME}:${IMAGE_TAG}"
+                script{
+                    docker.withRegistry(
+                        '203648104273.dkr.ecr.us-east-1.amazonaws.com', "ecr:${AWS_DEFAULT_REGION}:aws-credentials"
+                    ){
+                        app.push("django-app")
+                        app.push("latest")
+                    }
+                }
             }
         }
     }

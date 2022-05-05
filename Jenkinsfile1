@@ -15,7 +15,7 @@ pipeline{
         }
         stage('SV Project'){
             steps{
-                sh 'trivy --security-checks vuln,secret,config .'
+                sh "trivy --security-checks vuln,secret,config ./${CONFIG_FOLDER}/"
             }
         }
     }

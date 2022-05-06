@@ -1,5 +1,5 @@
 FROM aquasec/trivy:0.27.1 AS trivy-image
-FROM alpine:latest
+FROM alpine:3
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1

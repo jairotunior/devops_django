@@ -5,6 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 RUN adduser -D worker
+USER app-user
 
 # cd to directory /usr/src/app. this will be our working directory
 WORKDIR /app
@@ -17,6 +18,5 @@ COPY --from=trivy-image /usr/local/bin/trivy /usr/local/bin/trivy
 RUN trivy filesystem --exit-code 1 --no-progress --severity HIGH,CRITICAL,MEDIUM /
 #RUN trivy rootfs --no-progress /
 
-USER app-user
 
 EXPOSE 8000

@@ -12,7 +12,12 @@ WORKDIR /app
 
 COPY ./inventory .
 
-RUN pip install --user -r requirements.txt --no-cache-dir
+RUN apk add --no-cache --virtual .build-deps gcc musl-dev \
+ && pip install cython \
+ && pip install -r requirements.txt --default-timeout=100 future \
+ && apk del .build-deps
+ 
+#RUN pip install --user -r requirements.txt --no-cache-dir
 
 COPY --from=trivy-image /usr/local/bin/trivy /usr/local/bin/trivy
 RUN trivy filesystem --exit-code 1 --no-progress --severity HIGH,CRITICAL,MEDIUM /

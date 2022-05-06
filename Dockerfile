@@ -17,7 +17,7 @@ COPY ./inventory .
 #    && apk del .build-deps
 
 RUN set -ex \
-    && apk add --no-cache --virtual .build-deps build-base \
+    && apk add --no-cache --virtual .build-deps build-base bash \
     && python -m venv /env \
     && /env/bin/pip install --upgrade pip \
     && /env/bin/pip install -r requirements.txt --no-cache-dir \

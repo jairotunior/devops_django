@@ -32,7 +32,7 @@ pipeline{
                     def app = docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
                     app.inside{
                         sh 'ls'
-                        sh 'run_unit_test.sh'
+                        sh './run_unit_test.sh'
                     }
                 }
             }
@@ -41,7 +41,7 @@ pipeline{
             steps{
                 script{
                     docker.image("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}").inside{
-                        sh 'run_integration_test.sh'
+                        sh './run_integration_test.sh'
                     }
                 }
             }

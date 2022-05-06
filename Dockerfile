@@ -1,5 +1,5 @@
 FROM aquasec/trivy:0.27.1 AS trivy-image
-FROM python:3.9-alpine
+FROM python:3.8-alpine
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -12,12 +12,9 @@ WORKDIR /app
 
 COPY ./inventory .
 
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev \
- && pip install cython \
- && pip install -r requirements.txt --default-timeout=100 future \
- && apk del .build-deps
- 
-#RUN pip install --user -r requirements.txt --no-cache-dir
+RUN apk add --no-cache --update python3-dev gcc build-base
+
+RUN pip install --user -r requirements.txt --no-cache-dir
 
 COPY --from=trivy-image /usr/local/bin/trivy /usr/local/bin/trivy
 RUN trivy filesystem --exit-code 1 --no-progress --severity HIGH,CRITICAL,MEDIUM /

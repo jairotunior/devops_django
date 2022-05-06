@@ -23,7 +23,7 @@ pipeline{
         }
         stage('SV Docker Build'){
             steps{
-                sh "trivy ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
+                sh "trivy image ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
             }
         }
         stage('Unit Test'){

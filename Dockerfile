@@ -29,6 +29,9 @@ RUN set -ex \
     && apk add --virtual rundeps $runDeps \
     && apk del .build-deps
 
+ENV VIRTUAL_ENV /env
+ENV PATH /env/bin:$PATH
+
 RUN adduser -D app-user
 USER app-user
 

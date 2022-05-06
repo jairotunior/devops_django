@@ -4,7 +4,7 @@ FROM python:3.8-alpine
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-RUN useradd -D app-user
+RUN adduser -D worker
 
 # cd to directory /usr/src/app. this will be our working directory
 WORKDIR /app

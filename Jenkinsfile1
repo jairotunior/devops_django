@@ -23,7 +23,7 @@ pipeline{
         }
         stage('SV Docker Build'){
             steps{
-                sh "trivy image ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
+                sh "trivy image --severity HIGH,CRITICAL,MEDIUM --no-progress --exit-code 1 ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
             }
         }
         stage('Unit Test'){
